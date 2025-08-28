@@ -19,4 +19,5 @@ from . import reconciliation_widget
 from . import account_incoterms
 from . import digest
 from . import account_invoice_import_wizard
-from . import res_users
+# disable because error if user have 2 groups (group_show_line_subtotals_tax_included and group_show_line_subtotals_tax_excluded)
+# from . import res_users
