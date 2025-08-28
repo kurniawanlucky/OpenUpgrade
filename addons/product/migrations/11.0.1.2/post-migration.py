@@ -32,13 +32,32 @@ def map_product_tmpl_id_to_product_id(cr):
             # 'copy' existing product_packaging for additional
             # product_product records
             for p in product_rows[1:]:
-                fields = values = column_names
+                # @ webtek override
+                # case barcode already exists in product_packaging
+                # avoid barcode duplication: override with NULL
+                cols = []
+                vals = []
+                for col in column_names:
+                    if col == 'barcode':
+                        cols.append('barcode')
+                        vals.append('NULL')
+                    else:
+                        cols.append(col)
+                        vals.append(col)
+                # insert the copy
                 cr.execute("""
-                   INSERT INTO product_packaging(%s)
-                   SELECT %s
-                   FROM product_packaging WHERE id = %s""" % (
-                    ','.join(fields + ['product_id']),
-                    ','.join(values + [str(p[0])]), r[0]))
+                    INSERT INTO product_packaging(%s, product_id)
+                    SELECT %s, %%s FROM product_packaging WHERE id = %%s
+                """ % (','.join(cols), ','.join(vals)), (p[0], r[0]))
+
+                # fields = values = column_names
+                # cr.execute("""
+                #    INSERT INTO product_packaging(%s)
+                #    SELECT %s
+                #    FROM product_packaging WHERE id = %s""" % (
+                #     ','.join(fields + ['product_id']),
+                #     ','.join(values + [str(p[0])]), r[0]))
+                # @ end webtek override
 
 
 @openupgrade.migrate()
