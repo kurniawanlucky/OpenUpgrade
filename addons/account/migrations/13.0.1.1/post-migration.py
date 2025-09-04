@@ -179,7 +179,7 @@ def migration_invoice_moves(env):
         create_uid, create_date, write_uid, write_date)
         SELECT message_main_attachment_id, access_token,
         COALESCE(NULLIF(number, ''), NULLIF(move_name, ''), '/'),
-        COALESCE(date, date_invoice, write_date),
+        COALESCE(date, write_date, create_date, now()),
         CASE WHEN type IN ('in_invoice', 'in_refund') THEN reference ELSE name END,
         CASE WHEN type = 'in_refund' THEN COALESCE(comment, name)
             WHEN type = 'out_refund' THEN COALESCE(comment, reference)
@@ -497,7 +497,7 @@ def migration_voucher_moves(env):
         amount_tax, amount_total, state, invoice_payment_state, invoice_date,
         invoice_date_due, invoice_payment_ref, old_voucher_id,
         create_uid, create_date, write_uid, write_date)
-        SELECT message_main_attachment_id, COALESCE(number, '/'), date,
+        SELECT message_main_attachment_id, COALESCE(number, '/'), COALESCE(date, write_date, create_date, now()),
         reference, narration, CASE WHEN voucher_type = 'purchase'
         THEN 'in_receipt' ELSE 'out_receipt' END, journal_id, company_id,
         currency_id, partner_id, tax_amount, amount, CASE WHEN av.state = 'proforma'
