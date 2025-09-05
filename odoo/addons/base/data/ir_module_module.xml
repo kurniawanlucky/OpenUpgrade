@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="module_category_operations_timesheets" model="ir.module.category">
+            <field name="name">Timesheets</field>
+            <field name="description">Helps you manage the timesheets.</field>
+            <field name="sequence">13</field>
+        </record>
+
+        <record id="base.module_category_operations_project" model="ir.module.category">
+            <field name="name">Project</field>
+            <field name="description">Helps you manage your projects and tasks by tracking them, generating plannings, etc...</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="base.module_category_operations_inventory" model="ir.module.category">
+            <field name="name">Stock</field>
+            <field name="description">Helps you manage your inventory and main stock operations: delivery orders, receptions, etc.</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record id="base.module_category_manufacturing_manufacturing" model="ir.module.category">
+            <field name="name">MRP</field>
+            <field name="description">Helps you manage your manufacturing processes and generate reports on those processes.</field>
+            <field name="sequence">5</field>
+        </record>
 
         <record model="ir.module.module" id="base.module_web_studio">
             <field name="name">web_studio</field>
